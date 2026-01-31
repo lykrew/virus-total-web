@@ -33,5 +33,12 @@ async function makeRequest(url, options = {}) {
     });
 
     // Handle failed requests gracefully
+    if (!response.ok) {
+        const error = await response.json().catch(() => 
+        ({ error: {message: response.statusText} }));
+        throw new Error(error.error?.message || 'Request failed!');
+    }
+
+    return response.json(); // Parse response JSON
 }
 
