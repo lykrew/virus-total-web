@@ -22,4 +22,16 @@ const showLoading = message => updateResult(`
 // Displays an error message
 const showError = message => updateResult(`<p class = "error"${message}</p>`);
 
+// Generic function to make authenticated API requests to VirusTotal
+async function makeRequest(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            "x-apikey": API_KEY,
+            ...options.headers
+        }
+    });
+
+    // Handle failed requests gracefully
+}
 
