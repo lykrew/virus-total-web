@@ -10,3 +10,14 @@ const updateResult = (content, display = true) => {
     result.style.display = display ? 'block' : 'none';
     result.innerHTML = content;
 }
+
+// Shows a loading spinner and message
+const showLoading = message => updateResult(`
+        <div class = "loading>
+            <p>${message}</p>
+            <div class = "spinner"</div>
+        </div>
+    `);
+
+
+
