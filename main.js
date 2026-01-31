@@ -19,5 +19,7 @@ const showLoading = message => updateResult(`
         </div>
     `);
 
+// Displays an error message
+const showError = message => updateResult(`<p class = "error"${message}</p>`);
 
 
