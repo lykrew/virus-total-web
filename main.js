@@ -157,3 +157,30 @@ async function pollAnalysisResults(analysisId, fileName = '') {
         }
     }
 }
+
+// Formats and displays analysis in the UI
+function showFormattedResult(data) {
+    if (!data?.data?.attributes?.stats) return showError("Invalid response format!");
+
+    const stats = data.data.attributes.stats;
+    const total = Object.values(stats).reduce((sum, val) => sum + val, 0);
+    if (!total) return showError("No analysis results available!");
+    
+    const getPercent = val => ((val / total) * 100).toFixed(1);
+
+    const categories = {
+        malicious: { color: 'malicious', label: 'Malicious' },
+        suspicious: { color: 'suspicious', label: 'Suspicious' },
+        harmless: { color: 'safe', label: 'Clean' },
+        undetected: { color: 'undetected', label: 'Undetected' }
+    };
+
+    const percents = Object.keys(categories).reduce((acc, key) => {
+        acc[key] = getPercent(stats[key]);
+        return acc;
+    }, {});
+
+    // Determine overall vardict
+    const verdict = stats.malicious > 0 ? "Malicious" : stats.suspicious > 0 ? "Suspicious" : "Safe";
+    const verdictClass = stats.malicious > 0
+}
