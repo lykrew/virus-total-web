@@ -182,5 +182,6 @@ function showFormattedResult(data) {
 
     // Determine overall vardict
     const verdict = stats.malicious > 0 ? "Malicious" : stats.suspicious > 0 ? "Suspicious" : "Safe";
-    const verdictClass = stats.malicious > 0
+    const verdictClass = stats.malicious > 0 ? "malicious" : stats.suspicious > 0 ? "suspicious" : "safe";
+    // 34:33
 }
