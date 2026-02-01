@@ -150,7 +150,10 @@ async function pollAnalysisResults(analysisId, fileName = '') {
 
             // Increase interval between retries 
             interval = Math.min(interval * 1.5, 8000);
-            await new Promise
+            await new Promise(resolve => setTimeout(resolve, interval));
+        } catch (error) {
+            showError(`Error: ${error.message}`);
+            break;
         }
     }
 }
