@@ -34,8 +34,8 @@ async function makeRequest(url, options = {}) {
 
     // Handle failed requests gracefully
     if (!response.ok) {
-        const error = await response.json().catch(() => 
-        ({ error: {message: response.statusText} }));
+        const error = await response.json().catch(() =>
+            ({ error: { message: response.statusText } }));
         throw new Error(error.error?.message || 'Request failed!');
     }
 
@@ -82,3 +82,40 @@ async function scanURL() {
     }
 }
 
+// Handles the proccess of scanning a file using VirusTotal
+async function scanFile() {
+    const file = getElement('fileInput').files[0];
+    if (!file) return showError("Please select a file!");
+    if (file.size > 32 * 1024 * 1024) return showError("File size exceeds 32MB limit.");
+
+    try {
+        showLoading("Uploading File...");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        // Upload file to VirusTotal
+        const uploadResult = await makeRequest("https://www.virustotal.com/api/v3/urls", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!uploadResult.data?.id) {
+            throw new Error("Failed to get file ID!");
+        }
+
+        // Delay before pulling for analysis results
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        showLoading("Getting scan results...");
+        const analysisResult = await makeRequest(`https://www.virustotal.com/api/v3/analyses/${uploadResult.data.id}`);
+
+        if (!analysisResult.data?.id) {
+            throw new Error("Failed to get analysis results!");
+        }
+
+        await pollAnalysisResults(analysisResult.data.id, file.name);
+    } catch (error) {
+        showError(`Error: ${error.message}`);
+    }
+}
