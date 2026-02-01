@@ -119,3 +119,38 @@ async function scanFile() {
         showError(`Error: ${error.message}`);
     }
 }
+
+// Polls VirusTotal for analysis results, retrying untill complete or timeout
+async function pollAnalysisResults(analysisId, fileName = '') {
+    const maxAttempts = 20;
+    let attempts = 0;
+    let interval = 2000;
+
+    while(attempts < maxAttempts) {
+        try {
+            showLoading(`Analyzing${fileName ? ` ${fileName}` : ''}... (${((maxAttempts - attempts) * interval / 1000).toFixed(0)}s remaining)`);
+
+            const report = await makeRequest(`https://www.virustotal.com/api/v3/analyses/${analysisId}`);
+            const status = report.data?.attributes?.status;
+
+            if (!status) throw new Error("Invalid analysis response!");
+
+            if (status === "completed") {
+                showFormattedResult(report);
+                break;
+            }
+
+            if (status === "failed") {
+                throw new Error("Analysis failed!");
+            }
+
+            if (++attempts >= maxAttempts) {
+                throw new Error("Analysis timeout - please try again")
+            }
+
+            // Increase interval between retries 
+            interval = Math.min(interval * 1.5, 8000);
+            await new Promise
+        }
+    }
+}
