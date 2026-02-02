@@ -221,4 +221,10 @@ function showFormattedResult(data) {
             </div>
             <button onclick "showFullReport(this.getAttribute('data-report'))" data-report = "${JSON.stringify(data)}">View Full Report</button>
     `);
+    
+    // Trigger animation
+    setTimeout(() => getElement('result').querySelector('.progress-stacked').classList.add('animate'), 1000);
+
+
+
 }
