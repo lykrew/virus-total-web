@@ -224,7 +224,28 @@ function showFormattedResult(data) {
     
     // Trigger animation
     setTimeout(() => getElement('result').querySelector('.progress-stacked').classList.add('animate'), 1000);
+}
 
+// Displays a detailed report modal engine-by-engine detection results
+function showFullReport(reportData) {
+    const data = typeof reportData === 'string' ? JSON.parse(reportData) : reportData;
+    const modal = getElement("fullReportModal");
+    const results = data.data?.attributes?.results;
 
+    getElement("fullReportModal").innerHTML = `
+        <h3>Full Report Details</h3>
+        ${results ? `
+            <table>
+                <tr><th>Engine</th><th>Result</th></tr>
+                ${Object.entries(results).map(([engine, { category }]) => `
+                    <tr>
+                        <td>${engine}</td>
+                        <td class = "${category === 'malicious' ? 'malicious' : category === 'suspicious' ? 'suspicious' : 'safe'}">${category}</td>
+                    </tr>
+                `).join('')}
+            </table>
+        ` : '<p>No detailed results available</p>'}   
+    `;
 
+    
 }
