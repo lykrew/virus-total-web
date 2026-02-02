@@ -251,3 +251,10 @@ function showFullReport(reportData) {
     modal.offsetHeight;
     modal.classList.add('show');
 }
+
+// Closes the full report modal
+const closeModal = () => {
+    const modal = getElement("fullReportModal");
+    modal.classList.remove('show');
+    setTimeout(() => modal.style.display = 'none', 300);
+}
