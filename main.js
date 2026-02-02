@@ -183,5 +183,42 @@ function showFormattedResult(data) {
     // Determine overall vardict
     const verdict = stats.malicious > 0 ? "Malicious" : stats.suspicious > 0 ? "Suspicious" : "Safe";
     const verdictClass = stats.malicious > 0 ? "malicious" : stats.suspicious > 0 ? "suspicious" : "safe";
-    // 34:33
+
+    // Render result summary UI
+    updateResult(`
+        <h3>Scan Report</h3>
+        <div class = "scan-stats">
+            <p><strong>Verdict:</strong> <span class = "${verdictClass}">${verdict}</span></p>
+            <div class = "progress-section">
+                <div class = "progress-label">
+                    <span>Detection Results</span>
+                    <span class = "progress-percent">${percents.malicious}% Detection Rate</span>     
+                </div>
+                <div class = "progress-stacked">
+                    ${Object.entries(categories).map(([key, {color}]) => `
+                        <div class = "progress-bar ${color}" style = "width: ${percents[key]}%" title = ${categories[key].label} : ${stats[key]} (${percents[key]}%")>
+                            <span class = "progress-label-overlay">${stats[key]}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class = "progress-legend">
+                    ${Object.entries(categories).map(([key, {color, label}]) => `
+                        <div class = "legend-item">
+                            <span class = "legend-color ${color}"></span>
+                            <span>${label} (${percents[key]}%)</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class = "detection-details">
+                ${Object.entries(categories).map(([key, {color, label}]) => `
+                    <div class = "detail-item ${color}">
+                        <span class = "detail-label">${label}</span>
+                        <span class = "detail-value">${stats[key]}</span>
+                        <span class = "detail-percent">${percents[key]}%</span>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick "showFullReport(this.getAttribute('data-report'))" data-report = "${JSON.stringify(data)}">View Full Report</button>
+    `);
 }
