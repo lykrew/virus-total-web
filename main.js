@@ -13,14 +13,14 @@ const updateResult = (content, display = true) => {
 
 // Shows a loading spinner and message
 const showLoading = message => updateResult(`
-        <div class = "loading>
+        <div class = "loading">
             <p>${message}</p>
-            <div class = "spinner"</div>
+            <div class = "spinner"></div>
         </div>
     `);
 
 // Displays an error message
-const showError = message => updateResult(`<p class = "error"${message}</p>`);
+const showError = message => updateResult(`<p class = "error">${message}</p>`);
 
 // Generic function to make authenticated API requests to VirusTotal
 async function makeRequest(url, options = {}) {
@@ -50,7 +50,7 @@ async function scanURL() {
     try {
         new URL(url);
     } catch {
-        return showError("Please enter a valid URL (e.g., https://example.com");
+        return showError("Please enter a valid URL (e.g., https://example.com)");
     }
 
     try {
@@ -65,7 +65,7 @@ async function scanURL() {
                 "accept": "application/json",
                 "content-type": "application/x-www-form-urlencoded"
             },
-            body: `url = ${encodedUrl}`
+            body: `url=${encodedUrl}`
         });
 
         if (!submitResult.data?.id) {
@@ -95,7 +95,7 @@ async function scanFile() {
         formData.append("file", file);
 
         // Upload file to VirusTotal
-        const uploadResult = await makeRequest("https://www.virustotal.com/api/v3/urls", {
+        const uploadResult = await makeRequest("https://www.virustotal.com/api/v3/files", {
             method: "POST",
             body: formData
         });
@@ -196,7 +196,7 @@ function showFormattedResult(data) {
                 </div>
                 <div class = "progress-stacked">
                     ${Object.entries(categories).map(([key, {color}]) => `
-                        <div class = "progress-bar ${color}" style = "width: ${percents[key]}%" title = ${categories[key].label} : ${stats[key]} (${percents[key]}%")>
+                        <div class = "progress-bar ${color}" style = "width: ${percents[key]}%" title = "${categories[key].label} : ${stats[key]} (${percents[key]}%)">
                             <span class = "progress-label-overlay">${stats[key]}</span>
                         </div>
                     `).join('')}
@@ -219,7 +219,8 @@ function showFormattedResult(data) {
                     </div>
                 `).join('')}
             </div>
-            <button onclick "showFullReport(this.getAttribute('data-report'))" data-report = "${JSON.stringify(data)}">View Full Report</button>
+            <button onclick="showFullReport(this.getAttribute('data-report'))" data-report='${JSON.stringify(data)}'>View Full Report</button>
+        </div>
     `);
     
     // Trigger animation
@@ -258,3 +259,9 @@ const closeModal = () => {
     modal.classList.remove('show');
     setTimeout(() => modal.style.display = 'none', 300);
 }
+
+// Close modal on outside click
+window.addEventListener('load', () => {
+    const modal = getElement("fullReportModal");
+    modal.addEventListener('click', e => e.target === modal && closeModal());
+});
