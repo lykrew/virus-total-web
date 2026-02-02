@@ -247,5 +247,7 @@ function showFullReport(reportData) {
         ` : '<p>No detailed results available</p>'}   
     `;
 
-    
+    modal.style.display = 'block';
+    modal.offsetHeight;
+    modal.classList.add('show');
 }
