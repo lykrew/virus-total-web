@@ -207,3 +207,40 @@ button:hover{
     padding: 0;
 }
 
+.close:hover{
+    color: var(--danger);
+    background: none;
+    transform: none;
+}
+
+#fullReportModal .modal-content{
+    position: relative;
+    padding-top: 3rem;
+}
+
+#fullReportContent{
+    margin-top: 1rem;
+}
+
+#fullReportContent table{
+    margin-top: 1.5rem;
+    width: 100%;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+#fullReportContent th{
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+#fullReportContent td{
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+#fullReportContent tr:hover{
+    background-color: #f8fafc;
+}
