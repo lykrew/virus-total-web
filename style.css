@@ -244,3 +244,44 @@ button:hover{
 #fullReportContent tr:hover{
     background-color: #f8fafc;
 }
+
+.scan-stats{
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.scan-stats ul{
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+}
+
+.scan-stats li{
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.scan-stats li::before{
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.scan-stats li span.malicious::before{
+    background-color: var(--danger);
+}
+
+.scan-stats li span.suspicious::before{
+    background-color: var(--warning);
+}
+
+.scan-stats li span.safe::before{
+    background-color: var(--success);
+}
