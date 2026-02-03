@@ -42,7 +42,7 @@ async function makeRequest(url, options = {}) {
     return response.json(); // Parse response JSON
 }
 
-// Handles the proccess of scanning a URL using VirusTotal
+// Handles the process of scanning a URL using VirusTotal
 async function scanURL() {
     const url = getElement('urlInput').value.trim();
     if (!url) return showError("Please enter a URL!");
@@ -82,7 +82,7 @@ async function scanURL() {
     }
 }
 
-// Handles the proccess of scanning a file using VirusTotal
+// Handles the process of scanning a file using VirusTotal
 async function scanFile() {
     const file = getElement('fileInput').files[0];
     if (!file) return showError("Please select a file!");
@@ -120,7 +120,7 @@ async function scanFile() {
     }
 }
 
-// Polls VirusTotal for analysis results, retrying untill complete or timeout
+// Polls VirusTotal for analysis results, retrying until complete or timeout
 async function pollAnalysisResults(analysisId, fileName = '') {
     const maxAttempts = 20;
     let attempts = 0;
@@ -180,7 +180,7 @@ function showFormattedResult(data) {
         return acc;
     }, {});
 
-    // Determine overall vardict
+    // Determine overall verdict
     const verdict = stats.malicious > 0 ? "Malicious" : stats.suspicious > 0 ? "Suspicious" : "Safe";
     const verdictClass = stats.malicious > 0 ? "malicious" : stats.suspicious > 0 ? "suspicious" : "safe";
 
@@ -233,7 +233,7 @@ function showFullReport(reportData) {
     const modal = getElement("fullReportModal");
     const results = data.data?.attributes?.results;
 
-    getElement("fullReportModal").innerHTML = `
+    getElement("fullReportContent").innerHTML = `
         <h3>Full Report Details</h3>
         ${results ? `
             <table>
@@ -241,16 +241,16 @@ function showFullReport(reportData) {
                 ${Object.entries(results).map(([engine, { category }]) => `
                     <tr>
                         <td>${engine}</td>
-                        <td class = "${category === 'malicious' ? 'malicious' : category === 'suspicious' ? 'suspicious' : 'safe'}">${category}</td>
+                        <td class="${category === "malicious" ? "malicious" : category === "suspicious" ? "suspicious" : "safe"}">${category}</td>
                     </tr>
                 `).join('')}
             </table>
-        ` : '<p>No detailed results available</p>'}   
+        ` : '<p>No detailed results available!</p>'}
     `;
 
-    modal.style.display = 'block';
+    modal.style.display = "block";
     modal.offsetHeight;
-    modal.classList.add('show');
+    modal.classList.add("show");
 }
 
 // Closes the full report modal
