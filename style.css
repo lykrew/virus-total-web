@@ -367,3 +367,40 @@ button:hover{
 .progress-bar[style*="width: 1."]{
     min-width: 2rem;
 }
+
+.progress-legend{
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.legend-item{
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.legend-color{
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    margin-right: 0.5rem;
+}
+
+.legend-color.malicious{
+    background: #dc2626;
+}
+
+.legend-color.suspicious{
+    background: #f97316;
+}
+
+.legend-color.safe{
+    background: #22c55e;
+}
+
+.legend-color.undetected{
+    background: #64748b;
+}
