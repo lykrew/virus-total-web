@@ -20,6 +20,8 @@ A web application for analyzing URLs and files using the VirusTotal API.
 
 ```bash
 npm install
+```
 
-Run
+```Run
 npm run dev
+```
